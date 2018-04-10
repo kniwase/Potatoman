@@ -4,4 +4,4 @@ args = sys.argv
 
 import potatoman
 
-result = potatoman.auto_fullgame(['CPU1', 'CPU2', 'CPU3', 'CPU4'], [3, 3, 3, 3])
+result = potatoman.fullgame(['YOU', 'CPU1', 'CPU2', 'CPU3'], ['H', 3, 3, 3])

@@ -28,7 +28,8 @@ class Card():
 		return self.__number <= 18 and self.__number >= 16 and self.__color == RED
 	def __str__(self):
 		#return "{0:>2}".format(self.__number) + " of " + colors_str[self.__color]
-		return "{0} {1:>2}".format(colors_str[self.__color], self.__number)
+		#return "{0} {1:>2}".format(colors_str[self.__color], self.__number)
+		return '%s%s' % (colors_str[self.__color], self.__number)
 	def __lt__(self, card):
 		return str(self) < str(card)
 
@@ -39,11 +40,12 @@ deck = tuple([Card(i, YELLOW) for i in range(1, 14)] +
 			 )
 
 class Player:
-	def __init__(self, name, cards, potatomanAI):
+	def __init__(self, name, cards, potatomanAI, isHuman = False):
 		self.__name = name
 		self.__point = 0
 		self.__hand = [[],[],[],[]]
 		self.AI = potatomanAI
+		self.isHuman = isHuman
 		for card in cards:
 			if YELLOW == card.getColor():
 				self.__hand[YELLOW].append(card)
@@ -73,8 +75,8 @@ class Player:
 		self.__point = self.__point + n
 	def discard(self, color, number):
 		return self.__hand[color].pop(number)
-	def getCard(self, color, number = 100):
-		if number == 100:
+	def getCard(self, color, number = None):
+		if number == None:
 			return self.__hand[color]
 		else:
 			return self.__hand[color][number]
@@ -125,7 +127,7 @@ def compareCard(cards):
 	return winner
 
 
-def trick(players):
+def trick(players, isSilent = False):
 	#フィールドの初期化
 	field = Field()
 	#結果出力用変数 初期化
@@ -137,12 +139,20 @@ def trick(players):
 		for color in restColors:
 			if player.getCardNumber(color) == 0:
 				s.append(player.getName() + " : 出せるカードがない...")
+				if not isSilent: print(s[-1])
 				return [1, players.index(player), color], s
+
+		#プレイヤーが人間なら現在のフィールドの状況を表示
+		if player.isHuman:
+			print('%s のターン！' % player.getName())
+			if not s:
+				print('このトリックは ' + player.getName() + ' が最初のプレーヤーです')
 
 		player.AI(player, field, restColors)
 
 		#結果出力
-		s.append("{0:<4} :  {1}".format(player.getName(), str(field.getCard(players.index(player)))))
+		s.append("{0}: {1}".format(player.getName(), str(field.getCard(players.index(player)))))
+		if not isSilent: print(s[-1])
 
 	#勝者の決定
 	winner = compareCard(field.cardlist())

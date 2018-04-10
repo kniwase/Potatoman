@@ -4,29 +4,32 @@ import potatoman
 
 def main():
 	args = sys.argv
-	
+
 	#試行回数 n
 	n = int(args[1])
 	#AIのレベル設定
 	AI_level = []
 	if len(args[2:6]) != 0:
 		for arg in args[2:6]:
-			AI_level.append(int(arg))
+			if arg != 'H':
+				AI_level.append(int(arg))
+			else:
+				AI_level.append(arg)
 	else:
 		AI_level = [3,3,3,3]
-	
+
 	turn = [0 for i in range(12)]
 	s = 0.0
 	points = [0 for i in range(8)]
-	
+
 	for i in range(n):
 		print("第 " + str(i+1) + " 試合")
-		result = potatoman.auto_fullgame(['CPU1', 'CPU2', 'CPU3', 'CPU4'], AI_level)
+		result = potatoman.fullgame(['CPU1', 'CPU2', 'CPU3', 'CPU4'], AI_level, isSilent=True)
 		turn[result[0]-1] = turn[result[0]-1] + 1
 		s = s + result[0]
 		for i in range(8):
 			points[i] = points[i] + result[i + 1]
-	
+
 	for i in range(4):
 		points[i] = round(float(points[i]) / n * 100, 2)
 	for i in range(4,8):

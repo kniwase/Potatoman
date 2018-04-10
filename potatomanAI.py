@@ -19,7 +19,7 @@ def human(player, field, restColors):
 		sel_card = input()
 		try:
 			sel_color = colors_str2num[sel_card[0]]
-			if not sel_color in restColors:
+			if not sel_color in restColors_tmp:
 				print('%s色は今は選べないので、もう一度入力してください' % colors_str[sel_color])
 				continue
 		except KeyError:
@@ -32,6 +32,7 @@ def human(player, field, restColors):
 			print('数字を正しく指定して、もう一度入力してください')
 			continue
 		break
+	restColors.remove(sel_color)
 	field.append(player.discard(sel_color, sel_idx))
 
 #POTATOMAN AI

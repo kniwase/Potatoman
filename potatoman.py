@@ -6,6 +6,7 @@ import potatomanCore, potatomanAI
 colors_str = ['黄', '緑', '青', '赤']
 
 def fullgame(playerName, AI_level, isSilent = False):
+	if not isSilent: print('ゲームスタート！')
 	#カードの作成
 	cards = list(potatomanCore.deck)
 	#4人分に分ける

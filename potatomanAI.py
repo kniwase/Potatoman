@@ -68,7 +68,7 @@ def level2(player, field, restColors):
 	if field.size() == 0:
 		field.append(player.discard(color, random.randrange(player.getCardNumber(color))))
 	else:
-		if max([card.getNumber() for card in field.getCards()]) > max([player.getCard(color)[i].getNumber() for i in range(player.getCardNumber(color))]):
+		if max([card.getNumber() for card in field.getCardlist()]) > max([player.getCard(color)[i].getNumber() for i in range(player.getCardNumber(color))]):
 			if color == YELLOW:
 				c = player.getCard(YELLOW)[0]
 				for card in player.getCard(YELLOW):
@@ -94,7 +94,7 @@ def level3(player, field, restColors):
 	if field.size() == 0:
 		field.append(player.discard(color, random.randrange(player.getCardNumber(color))))
 	else:
-		if max([card.getNumber() for card in field.cardlist()]) > max([player.getCard(color)[i].getNumber() for i in range(player.getCardNumber(color))]):
+		if max([card.getNumber() for card in field.getCardlist()]) > max([player.getCard(color)[i].getNumber() for i in range(player.getCardNumber(color))]):
 			if color == YELLOW:
 				c = player.getCard(YELLOW)[0]
 				for card in player.getCard(YELLOW):
@@ -107,5 +107,5 @@ def level3(player, field, restColors):
 		else:
 			field.append(player.discard(color, random.randrange(player.getCardNumber(color))))
 
-level = [level0, level1, level2, level3]
-level.append(human)
+level = {0:level0, 1:level1, 2:level2, 3:level3}
+level['H'] = human

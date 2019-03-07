@@ -9,10 +9,12 @@ def main():
 	n = int(args[1])
 	#AIのレベル設定
 	AI_level = []
-	if len(args[2:6]) != 0:
-		for arg in args[2:6]:
+	if len(args) >= 3:
+		for arg in args[2]:
 			if arg != 'H':
 				AI_level.append(int(arg))
+			elif arg != 'A':
+				AI_level.append(arg)
 			else:
 				AI_level.append(arg)
 	else:

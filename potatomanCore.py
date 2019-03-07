@@ -89,11 +89,18 @@ class Player:
 class Field:
 	def __init__(self):
 		self.__cards = []
+		self.__discarded = []
+		self.pointCard = [3 for color in colors]
+	def getDiscarded (self):
+		return self.__discarded
+	def resetCards(self):
+		self.__cards = []
 	def append(self, card):
 		self.__cards.append(card)
+		self.__discarded.append(card)
 	def size(self):
 		return len(self.__cards)
-	def cardlist(self):
+	def getCardlist(self):
 		return self.__cards
 	def getCard(self, __index):
 		return self.__cards[__index]
@@ -127,9 +134,9 @@ def compareCard(cards):
 	return winner
 
 
-def trick(players, isSilent = False):
+def trick(field, players, isSilent = False):
 	#フィールドの初期化
-	field = Field()
+	field.resetCards()
 	#結果出力用変数 初期化
 	s = []
 	#フィールド上の残りの色の初期化
@@ -144,9 +151,9 @@ def trick(players, isSilent = False):
 
 		#プレイヤーが人間なら現在のフィールドの状況を表示
 		if player.isHuman:
-			print('%s のターン！' % player.getName())
 			if not s:
 				print('このトリックは ' + player.getName() + ' が最初のプレーヤーです')
+			print('%s のターン！' % player.getName())
 
 		player.AI(player, field, restColors)
 
@@ -155,5 +162,5 @@ def trick(players, isSilent = False):
 		if not isSilent: print(s[-1])
 
 	#勝者の決定
-	winner = compareCard(field.cardlist())
+	winner = compareCard(field.getCardlist())
 	return [0, field.index(winner), winner.getColor()], s
